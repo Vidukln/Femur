@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Distal End of Femur</title>
+  <style>
+    body { background-color: black; color: white; font-family: Arial, sans-serif; padding: 20px; }
+    h1 { color: gold; text-align: center; }
+    input, button { font-size: 18px; padding: 5px; margin: 5px; }
+    .btn { background-color: gold; color: black; border: none; border-radius: 5px; cursor: pointer; }
+    table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+    th, td { border: 1px solid white; padding: 10px; text-align: center; }
+    caption { font-size: 24px; color: gold; margin-bottom: 10px; }
+    .images { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 20px; }
+    .images div { text-align: center; }
+    .images img { max-width: 200px; height: auto; border: 1px solid white; }
+  </style>
+</head>
+<body>
+<h1>Distal End of Femur</h1>
+
+<div class="images">
+  <div>
+    <img src="1.jpg" alt="Posterior surface of femur">
+    <div>Posterior surface</div>
+  </div>
+  <div>
+    <img src="4.png" alt="Distal femur interior">
+    <div>Interior view of distal part</div>
+  </div>
+</div>
+
+<table>
+  <caption>Enter Measurements</caption>
+  <tr><th>Measurement</th><th>Value</th></tr>
+  <tr><td>EB</td><td><input type="number" id="T4V1"></td></tr>
+  <tr><td>MLLC</td><td><input type="number" id="T4V2"></td></tr>
+</table>
+
+<button class="btn" onclick="calculateT4()">Predict</button>
+
+<h2>Results</h2>
+<table>
+  <tr><td>Discriminant Score</td><td><input type="number" id="DECS"></td></tr>
+  <tr><td>Gender</td><td><input type="text" id="DECG"></td></tr>
+  <tr><td>Probability</td><td><input type="number" id="DEP"></td></tr>
+  <tr><td>Gender</td><td><input type="text" id="DEPG"></td></tr>
+</table>
+
+<button class="btn" onclick="location.href='index.html'">Back to Home</button>
+
+<script>
+function calculateT4(){
+  var USERINPUT1 = parseFloat(document.getElementById('T4V1').value);
+  var USERINPUT10 = parseFloat(document.getElementById('T4V2').value);
+
+  var CALC1 = (USERINPUT1-7.537962)/0.4493;
+  var CALC10 = (USERINPUT10-5.897821)/0.383368;
+
+  var ROUT4 = (0.7657*CALC1) + (0.5265*CALC10);
+  document.getElementById('DECS').value = ROUT4;
+  document.getElementById('DECG').value = (ROUT4<-0.1631) ? "Female" : "Male";
+
+  var eOUT4 = 0.7181 + (1.0285*CALC1) + (0.8437*CALC10);
+  let e4 = Math.exp(-eOUT4);
+  var r4 = 1/(e4+1);
+  document.getElementById('DEP').value = r4;
+  document.getElementById('DEPG').value = (r4>0.5) ? "Male" : "Female";
+}
+</script>
+</body>
+</html>

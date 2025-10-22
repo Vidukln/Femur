@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mid-Shaft Section of Femur</title>
+  <style>
+    body { background-color: black; color: white; font-family: Arial, sans-serif; padding: 20px; }
+    h1 { color: gold; text-align: center; }
+    input, button { font-size: 18px; padding: 5px; margin: 5px; }
+    .btn { background-color: gold; color: black; border: none; border-radius: 5px; cursor: pointer; }
+    table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+    th, td { border: 1px solid white; padding: 10px; text-align: center; }
+    caption { font-size: 24px; color: gold; margin-bottom: 10px; }
+    .images { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 20px; }
+    .images div { text-align: center; }
+    .images img { max-width: 200px; height: auto; border: 1px solid white; }
+  </style>
+</head>
+<body>
+<h1>Mid-Shaft Section of Femur</h1>
+
+<div class="images">
+  <div>
+    <img src="2.jpg" alt="Mid-shaft cross section of femur">
+    <div>Mid-shaft cross section</div>
+  </div>
+</div>
+
+<table>
+  <caption>Enter Measurement</caption>
+  <tr><th>Measurement</th><th>Value</th></tr>
+  <tr><td>APMSD</td><td><input type="number" id="T3V1"></td></tr>
+</table>
+
+<button class="btn" onclick="calculateT3()">Predict</button>
+
+<h2>Results</h2>
+<table>
+  <tr><td>Discriminant Score</td><td><input type="number" id="MSCS"></td></tr>
+  <tr><td>Gender</td><td><input type="text" id="MSCG"></td></tr>
+  <tr><td>Probability</td><td><input type="number" id="MSP"></td></tr>
+  <tr><td>Gender</td><td><input type="text" id="MSPG"></td></tr>
+</table>
+
+<button class="btn" onclick="location.href='index.html'">Back to Home</button>
+
+<script>
+function calculateT3(){
+  var USERINPUT2 = parseFloat(document.getElementById('T3V1').value);
+  var CALC2 = (USERINPUT2-2.797642)/0.258698;
+
+  var ROUT3 = 1.2379*CALC2;
+  document.getElementById('MSCS').value = ROUT3;
+  document.getElementById('MSCG').value = (ROUT3<-0.1740) ? "Female" : "Male";
+
+  var eOUT3 = 0.6902 + (2.0570*CALC2);
+  let e3 = Math.exp(-eOUT3);
+  var r3 = 1/(e3+1);
+  document.getElementById('MSP').value = r3;
+  document.getElementById('MSPG').value = (r3>0.5) ? "Male" : "Female";
+}
+</script>
+</body>
+</html>

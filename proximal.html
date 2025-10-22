@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Proximal End of Femur</title>
+  <style>
+    body { background-color: black; color: white; font-family: Arial, sans-serif; padding: 20px; }
+    h1 { color: gold; text-align: center; }
+    input, button { font-size: 18px; padding: 5px; margin: 5px; }
+    .btn { background-color: gold; color: black; border: none; border-radius: 5px; cursor: pointer; }
+    table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+    th, td { border: 1px solid white; padding: 10px; text-align: center; }
+    caption { font-size: 24px; color: gold; margin-bottom: 10px; }
+    .images { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 20px; }
+    .images div { text-align: center; }
+    .images img { max-width: 200px; height: auto; border: 1px solid white; }
+  </style>
+</head>
+<body>
+<h1>Proximal End of Femur</h1>
+
+<div class="images">
+  <div>
+    <img src="3.jpg" alt="Medial view of head of femur">
+    <div>Medial view of femur head</div>
+  </div>
+  <div>
+    <img src="4.png" alt="Greater to lesser trochanter">
+    <div>Greater to lesser trochanter</div>
+  </div>
+</div>
+
+<table>
+  <caption>Enter Measurements</caption>
+  <tr><th>Measurement</th><th>Value</th></tr>
+  <tr><td>THD</td><td><input type="number" id="T2V1"></td></tr>
+  <tr><td>BTL</td><td><input type="number" id="T2V2"></td></tr>
+</table>
+
+<button class="btn" onclick="calculateT2()">Predict</button>
+
+<h2>Results</h2>
+<table>
+  <tr><td>Discriminant Score</td><td><input type="number" id="PECS"></td></tr>
+  <tr><td>Gender</td><td><input type="text" id="PECG"></td></tr>
+  <tr><td>Probability</td><td><input type="number" id="PEP"></td></tr>
+  <tr><td>Gender</td><td><input type="text" id="PEPG"></td></tr>
+</table>
+
+<button class="btn" onclick="location.href='index.html'">Back to Home</button>
+
+<script>
+function calculateT2(){
+  var USERINPUT3 = parseFloat(document.getElementById('T2V1').value);
+  var USERINPUT9 = parseFloat(document.getElementById('T2V2').value);
+
+  var CALC3 = (USERINPUT3-7.139872)/0.802448;
+  var CALC9 = (USERINPUT9-4.220769)/0.28736;
+
+  var ROUT2 = (0.4069*CALC9) + (0.9421*CALC3);
+  document.getElementById('PECS').value = ROUT2;
+  document.getElementById('PECG').value = (ROUT2<-0.1503) ? "Female" : "Male";
+
+  var eOUT2 = 0.4739 + (2.2241*CALC3);
+  let e2 = Math.exp(-eOUT2);
+  var r2 = 1/(e2+1);
+  document.getElementById('PEP').value = r2;
+  document.getElementById('PEPG').value = (r2>0.5) ? "Male" : "Female";
+}
+</script>
+</body>
+</html>

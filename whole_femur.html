@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Whole Femur</title>
+  <style>
+    body { background-color: black; color: white; font-family: Arial, sans-serif; padding: 20px; }
+    h1 { color: gold; text-align: center; }
+    input, button { font-size: 18px; padding: 5px; margin: 5px; }
+    .btn { background-color: gold; color: black; border: none; border-radius: 5px; cursor: pointer; }
+    table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+    th, td { border: 1px solid white; padding: 10px; text-align: center; }
+    caption { font-size: 24px; color: gold; margin-bottom: 10px; }
+    .images { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 20px; }
+    .images div { text-align: center; }
+    .images img { max-width: 200px; height: auto; border: 1px solid white; }
+  </style>
+</head>
+<body>
+<h1>Whole Femur</h1>
+
+<div class="images">
+  <div>
+    <img src="1.jpg" alt="Posterior surface of femur">
+    <div>Posterior surface of femur</div>
+  </div>
+  <div>
+    <img src="2.jpg" alt="Mid-shaft cross section of femur">
+    <div>Mid-shaft cross section</div>
+  </div>
+  <div>
+    <img src="3.jpg" alt="Medial view of head of femur">
+    <div>Medial view of head</div>
+  </div>
+  <div>
+    <img src="4.png" alt="Interior view of distal femur">
+    <div>Interior view of distal part</div>
+  </div>
+</div>
+
+<table>
+  <caption>Enter Measurements</caption>
+  <tr><th>Measurement</th><th>Value</th></tr>
+  <tr><td>EB</td><td><input type="number" id="T1V1"></td></tr>
+  <tr><td>APMSD</td><td><input type="number" id="T1V2"></td></tr>
+  <tr><td>BTL</td><td><input type="number" id="T1V3"></td></tr>
+  <tr><td>MxSD</td><td><input type="number" id="T1V4"></td></tr>
+</table>
+
+<button class="btn" onclick="calculateT1()">Predict</button>
+
+<h2>Results</h2>
+<table>
+  <tr><td>Discriminant Score</td><td><input type="number" id="WFCS"></td></tr>
+  <tr><td>Gender</td><td><input type="text" id="WFCG"></td></tr>
+  <tr><td>Probability</td><td><input type="number" id="WFP"></td></tr>
+  <tr><td>Gender</td><td><input type="text" id="WFPG"></td></tr>
+</table>
+
+<button class="btn" onclick="location.href='index.html'">Back to Home</button>
+
+<script>
+function calculateT1(){
+  var USERINPUT1 = parseFloat(document.getElementById('T1V1').value);
+  var USERINPUT2 = parseFloat(document.getElementById('T1V2').value);
+  var USERINPUT3 = parseFloat(document.getElementById('T1V3').value);
+  var USERINPUT4 = parseFloat(document.getElementById('T1V4').value);
+
+  var CALC1 = (USERINPUT1-7.537962)/0.4493;
+  var CALC2 = (USERINPUT2-2.797642)/0.258698;
+  var CALC3 = (USERINPUT3-7.139872)/0.802448;
+  var CALC4 = (USERINPUT4-2.884514)/0.243353;
+
+  var ROUT1 = (0.7363*CALC1) + (0.8647*CALC2) + (0.4*CALC3) - (0.3890*CALC4);
+  document.getElementById('WFCS').value = ROUT1;
+  document.getElementById('WFCG').value = (ROUT1<-0.2290) ? "Female" : "Male";
+
+  var eOUT1 = 0.9109 + (1.7220*CALC1) + (2.2357*CALC2) - (0.9453*CALC4);
+  let e1 = Math.exp(-eOUT1);
+  var r1 = 1/(e1+1);
+  document.getElementById('WFP').value = r1;
+  document.getElementById('WFPG').value = (r1>0.5) ? "Male" : "Female";
+}
+</script>
+</body>
+</html>
